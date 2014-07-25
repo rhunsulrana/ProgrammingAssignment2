@@ -40,15 +40,16 @@ makeCacheMatrix <- function(x = matrix()) {
 ## in the environment, that is what is returned, otherwise it is calculated
 ## and returned using the solve() function, and also cached for future needs.
 cacheSolve <- function(x, ...) {
-    ## Return a matrix that is the inverse of 'x'
-    ## will return cached inverse from the environment if it exists
+    #check to see if a cached inverse already exists,
+    # and return the cached value, if it isn't null.
     inv <- x$getinverse()
     if(!is.null(inv)) {
         message("getting cached inverse.")
         return(inv)
     }
-    mat <- x$get()
-    inv <- solve(mat, ...)
-    x$setinvers(inv)
-    inv
+    
+    mat <- x$get() #get matrix
+    inv <- solve(mat, ...)  #solve inverse of matrix
+    x$setinverse(inv) #cache inverse solution for future references
+    inv #return inverse
 }
